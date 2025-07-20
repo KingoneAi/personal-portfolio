@@ -7,6 +7,15 @@ interface StarryBackgroundProps {
   isLocal?: boolean;
 }
 
+interface Star {
+  id: number;
+  x: number;
+  y: number;
+  size: number;
+  duration: number;
+  delay: number;
+}
+
 const StarryBackground: React.FC<StarryBackgroundProps> = ({ numStars = 150, isLocal = false }) => {
   const [stars, setStars] = useState<Star[]>([]);
 

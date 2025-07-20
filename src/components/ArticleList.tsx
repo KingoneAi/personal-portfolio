@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function ArticleList({ articles }: { articles: { title: string, desc: string, slug: string }[] }) {
   // 文章图片映射
   const getArticleImage = (slug: string) => {
@@ -17,7 +19,7 @@ export default function ArticleList({ articles }: { articles: { title: string, d
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {articles.map((a) => (
           <a key={a.slug} href={`/articles/${a.slug}`} className="block p-6 bg-gray-50 dark:bg-gray-700/50 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600/50 transition-colors text-black dark:text-white flex items-center">
-            <img src={getArticleImage(a.slug)} alt={a.title} className="w-24 h-24 object-cover rounded-lg mr-4" />
+            <Image src={getArticleImage(a.slug)} alt={a.title} width={96} height={96} className="w-24 h-24 object-cover rounded-lg mr-4" />
             <div className="flex-grow">
               <div className="font-bold text-xl mb-1">{a.title}</div>
               <div className="text-gray-600 dark:text-gray-300 text-base mb-1">{a.desc}</div>
