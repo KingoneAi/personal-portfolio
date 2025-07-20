@@ -55,7 +55,7 @@ export default function Header() {
           <Link href="#social" className="px-4 py-2 text-lg font-semibold text-gray-600 dark:text-gray-300 hover:bg-blue-100 dark:hover:bg-blue-900 hover:text-blue-700 dark:hover:text-blue-200 rounded-full transition-colors">关于我</Link>
         </nav>
         <ThemeToggle className="ml-8" />
-        <Link href="https://github.com/your-github-repo" target="_blank" rel="noopener noreferrer" className="w-10 h-10 flex items-center justify-center rounded-full border border-gray-300 bg-white dark:bg-[var(--dark-bg-tertiary)] transition-colors shadow dark:shadow-[var(--dark-shadow-sm)] hover:bg-gray-100 dark:hover:bg-[var(--dark-bg-secondary)] ml-6">
+        <Link href="https://github.com/KingoneAi/personal-portfolio" target="_blank" rel="noopener noreferrer" className="w-10 h-10 flex items-center justify-center rounded-full border border-gray-300 bg-white dark:bg-[var(--dark-bg-tertiary)] transition-colors shadow dark:shadow-[var(--dark-shadow-sm)] hover:bg-gray-100 dark:hover:bg-[var(--dark-bg-secondary)] ml-6">
           <Github className="w-6 h-6 text-gray-600 dark:text-gray-300" />
         </Link>
       </div>

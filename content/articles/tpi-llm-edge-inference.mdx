@@ -1,0 +1,134 @@
+---
+title: TPI-LLM：边缘设备上的大模型推理方案
+description: 在低资源边缘设备上高效运行70B级大语言模型
+date: "2025-01-20"
+tags: ["LLM", "边缘计算", "模型推理", "分布式计算", "内存优化"]
+---
+
+
+## 项目介绍
+
+TPI-LLM (Tensor Parallelism Inference for Large Language Models) 是一个专为在低资源边缘设备上高效运行大语言模型而设计的推理系统。该项目旨在解决云端 LLM 服务带来的隐私问题，通过创新的内存管理和分布式计算技术，让边缘设备能够本地运行大型语言模型。
+
+## 核心技术与创新点
+
+### 1. 张量并行推理
+通过多设备协作进行张量级别的并行计算，将大型模型分布在多个低资源设备上运行。
+
+### 2. 滑动窗口内存调度器
+实现了智能内存管理策略，动态加载和卸载模型权重，显著降低峰值内存需求。例如，通过 `MemoryManager` 类管理模型块的加载与释放，确保在有限内存条件下高效运行。
+
+### 3. 高效通信机制
+设计了自定义通信协议，优化设备间数据传输，降低延迟。
+
+## 性能亮点
+
+- **低内存需求**：能够在 4 台 5GB 内存的笔记本上全精度运行 34B 参数模型，或在 8 台 3GB 内存设备上运行 70B 模型
+- **速度优势**：相比传统框架（如 Transformers、Accelerate），TTFT（Time To First Token）和 token 生成延迟降低 80%-90%；与 llama.cpp 相比，在大型模型（>13B）上也有 43%-55%的提升
+
+## 系统架构与组件
+
+### 1. 模型分片工具
+- `split_pretrained_model` 函数将原始模型权重分割为多个部分
+- `get_layers_in_sharded_weights` 分析分片文件中的层信息
+
+### 2. 内存管理系统
+- `MemoryManager` 类实现了动态加载和卸载模型块的核心逻辑
+- 支持设置内存窗口大小，控制同时加载的模型块数量
+- 通过线程池实现异步加载，减少等待时间
+
+### 3. 分布式通信
+- 基于 `socket` 实现节点间通信
+- 提供 `CommunicatorBase` 抽象类及具体实现（如 `CommunicatorMaster` 和 `CommunicatorClient`）
+- 支持广播、all-reduce 等集体通信操作
+
+## 复现过程
+
+### 实验环境
+- 火山云 8c32g 机器一台（模拟 4 台笔记本电脑，每台 5GB 内存）
+- 使用 chargoddard/Yi-34B-Llama 模型进行实验
+
+### 环境准备
+
+1. 下载模型文件：
+```bash
+huggingface-cli download --resume-download chargoddard/Yi-34B-Llama --local-dir ./model --local-dir-use-symlinks False
+```
+
+2. 配置环境：
+```bash
+# 添加 PYTHONPATH 到 .bashrc
+export PYTHONPATH=<PATH-TO-TPI-LLM>/src
+
+# 创建 conda 环境
+conda create -n tpi-llm python=3.9
+conda activate tpi-llm
+pip install -r requirements.txt
+```
+
+### 运行实验
+
+单机多进程模拟分布式环境（启动 5 个 5g 内存节点）：
+
+```bash
+python examples/run_multiprocess.py --world_size 5 --model_type llama --model_path ./model --prompt "你好" --length 20 --memory_window 5
+```
+
+### 实验结果
+
+**成功在 32GB 机器上运行 BF16 版本的 Yi-34B 模型**，虽然速度较慢，但能够正常运行就是一个重大成功。这个思路如果能推广到 GPU 机器中，让大量消费级 GPU 运行大规格的 LLM，将具有重要意义。
+
+## 对比实验：llama.cpp
+
+为了验证 TPI-LLM 的优势，我们同时使用 llama.cpp 运行相同模型进行对比：
+
+### llama.cpp 配置
+
+1. 编译 llama.cpp：
+```bash
+git clone https://github.com/ggerganov/llama.cpp
+cd llama.cpp
+mkdir build && cd build
+cmake .. -DLLAMA_AVX2=ON -DLLAMA_AVX512=OFF -DLLAMA_CURL=OFF
+make -j8
+```
+
+2. 模型量化：
+```bash
+# 转换为 GGUF 格式
+python3 convert.py models/Yi-34B/ --outtype f16
+
+# 量化压缩
+./quantize ./models/Yi-34B/ggml-model-f16.gguf ./models/Yi-34B/ggml-model-q4_0.gguf q4_0
+```
+
+3. 运行推理：
+```bash
+./main -m ./models/Yi-34B/ggml-model-q4_0.gguf \
+  --threads 8 \
+  --ctx-size 2048 \
+  --temp 0.8 \
+  --mlock \
+  -n 512
+```
+
+## 研究结论
+
+### TPI-LLM 的优势
+
+1. **低内存占用**：TPI-LLM 可以运行 BF16 的 Yi-34B 模型，而 llama.cpp 需要运行 Q4_0 量化版本
+2. **精度保持**：全精度运行避免了量化带来的性能损失
+3. **分布式能力**：支持多设备协作，充分利用边缘设备资源
+
+### 技术意义
+
+TPI-LLM 项目展示了在资源受限环境下运行大型语言模型的可能性，为边缘 AI 应用提供了新的解决方案。虽然当前主要在 CPU 环境下验证，但其核心思想具有推广到 GPU 分布式环境的潜力。
+
+### 应用前景
+
+- **隐私保护**：本地推理避免数据上传到云端
+- **成本降低**：利用现有边缘设备，减少云服务依赖
+- **延迟优化**：本地计算消除网络传输延迟
+- **可扩展性**：支持动态添加设备，灵活调整计算能力
+
+这项研究为大模型的边缘部署开辟了新的技术路径，具有重要的学术价值和实用意义。

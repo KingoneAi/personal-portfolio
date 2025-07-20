@@ -1,0 +1,95 @@
+<svg width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGradient5" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f59e0b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ef4444;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="cardGradient5" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.95" />
+      <stop offset="100%" style="stop-color:#fffbeb;stop-opacity:0.95" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="400" height="300" fill="url(#bgGradient5)"/>
+  
+  <!-- Main card -->
+  <rect x="20" y="25" width="360" height="250" rx="12" fill="url(#cardGradient5)" stroke="#e2e8f0" stroke-width="1"/>
+  
+  <!-- Title -->
+  <text x="200" y="50" text-anchor="middle" fill="#1e293b" font-family="Arial, sans-serif" font-size="16" font-weight="bold">首板加强隔日高频策略</text>
+  <text x="200" y="70" text-anchor="middle" fill="#64748b" font-family="Arial, sans-serif" font-size="12">实盘量化交易策略</text>
+  
+  <!-- Stock chart visualization -->
+  <g transform="translate(50, 90)">
+    <!-- Chart background -->
+    <rect x="0" y="0" width="180" height="80" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1" rx="4"/>
+    
+    <!-- Price line -->
+    <polyline points="10,60 30,45 50,50 70,35 90,40 110,25 130,30 150,20 170,25" 
+              fill="none" stroke="#10b981" stroke-width="3"/>
+    
+    <!-- Data points -->
+    <circle cx="30" cy="45" r="3" fill="#10b981"/>
+    <circle cx="70" cy="35" r="3" fill="#10b981"/>
+    <circle cx="110" cy="25" r="3" fill="#10b981"/>
+    <circle cx="150" cy="20" r="3" fill="#10b981"/>
+    
+    <!-- Axes -->
+    <line x1="10" y1="70" x2="170" y2="70" stroke="#64748b" stroke-width="1"/>
+    <line x1="10" y1="10" x2="10" y2="70" stroke="#64748b" stroke-width="1"/>
+    
+    <text x="90" y="85" text-anchor="middle" fill="#64748b" font-family="Arial, sans-serif" font-size="8">收益曲线</text>
+  </g>
+  
+  <!-- Performance metrics -->
+  <g transform="translate(250, 90)">
+    <!-- Win rate -->
+    <rect x="0" y="0" width="70" height="35" rx="6" fill="#ecfdf5" stroke="#10b981" stroke-width="1"/>
+    <text x="35" y="15" text-anchor="middle" fill="#059669" font-family="Arial, sans-serif" font-size="12" font-weight="bold">胜率</text>
+    <text x="35" y="28" text-anchor="middle" fill="#059669" font-family="Arial, sans-serif" font-size="10">80%</text>
+    
+    <!-- Return -->
+    <rect x="0" y="45" width="70" height="35" rx="6" fill="#fef3c7" stroke="#f59e0b" stroke-width="1"/>
+    <text x="35" y="60" text-anchor="middle" fill="#d97706" font-family="Arial, sans-serif" font-size="12" font-weight="bold">收益</text>
+    <text x="35" y="73" text-anchor="middle" fill="#d97706" font-family="Arial, sans-serif" font-size="10">4.5倍</text>
+  </g>
+  
+  <!-- Trading rules -->
+  <g transform="translate(50, 190)">
+    <text x="0" y="15" fill="#374151" font-family="Arial, sans-serif" font-size="12" font-weight="bold">交易规则:</text>
+    
+    <!-- Rule 1 -->
+    <circle cx="10" cy="35" r="3" fill="#3b82f6"/>
+    <text x="20" y="39" fill="#374151" font-family="Arial, sans-serif" font-size="10">第四天开盘买入1万元</text>
+    
+    <!-- Rule 2 -->
+    <circle cx="10" cy="55" r="3" fill="#10b981"/>
+    <text x="20" y="59" fill="#374151" font-family="Arial, sans-serif" font-size="10">第五天收盘卖出</text>
+  </g>
+  
+  <!-- Stock selection criteria -->
+  <g transform="translate(200, 190)">
+    <text x="0" y="15" fill="#374151" font-family="Arial, sans-serif" font-size="12" font-weight="bold">选股条件:</text>
+    
+    <!-- Criteria -->
+    <circle cx="10" cy="35" r="3" fill="#f59e0b"/>
+    <text x="20" y="39" fill="#374151" font-family="Arial, sans-serif" font-size="10">主板股票</text>
+    
+    <circle cx="10" cy="55" r="3" fill="#ef4444"/>
+    <text x="20" y="59" fill="#374151" font-family="Arial, sans-serif" font-size="10">非ST股票</text>
+  </g>
+  
+  <!-- Warning -->
+  <g transform="translate(50, 240)">
+    <rect x="0" y="0" width="300" height="20" rx="10" fill="#fef2f2" stroke="#ef4444" stroke-width="1"/>
+    <text x="150" y="13" text-anchor="middle" fill="#dc2626" font-family="Arial, sans-serif" font-size="10" font-weight="bold">⚠️ 小资金试跑，避免黑天鹅风险</text>
+  </g>
+  
+  <!-- Decorative elements -->
+  <g transform="translate(320, 50)">
+    <circle cx="10" cy="10" r="2" fill="#f59e0b" opacity="0.6"/>
+    <circle cx="25" cy="15" r="3" fill="#10b981" opacity="0.6"/>
+    <circle cx="15" cy="30" r="2" fill="#3b82f6" opacity="0.6"/>
+  </g>
+</svg>

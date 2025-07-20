@@ -1,0 +1,104 @@
+<svg width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGradient4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#059669;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0891b2;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="cardGradient4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.95" />
+      <stop offset="100%" style="stop-color:#f0fdfa;stop-opacity:0.95" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="400" height="300" fill="url(#bgGradient4)"/>
+  
+  <!-- Main card -->
+  <rect x="20" y="25" width="360" height="250" rx="12" fill="url(#cardGradient4)" stroke="#e2e8f0" stroke-width="1"/>
+  
+  <!-- Title -->
+  <text x="200" y="50" text-anchor="middle" fill="#1e293b" font-family="Arial, sans-serif" font-size="18" font-weight="bold">TPI-LLM</text>
+  <text x="200" y="70" text-anchor="middle" fill="#64748b" font-family="Arial, sans-serif" font-size="12">边缘设备大模型推理</text>
+  
+  <!-- Edge devices visualization -->
+  <g transform="translate(50, 90)">
+    <!-- Device 1 -->
+    <rect x="0" y="0" width="40" height="30" rx="4" fill="#e0f2fe" stroke="#0891b2" stroke-width="2"/>
+    <circle cx="20" cy="15" r="3" fill="#0891b2"/>
+    <text x="20" y="45" text-anchor="middle" fill="#374151" font-family="Arial, sans-serif" font-size="8">设备1</text>
+    <text x="20" y="55" text-anchor="middle" fill="#64748b" font-family="Arial, sans-serif" font-size="7">5GB</text>
+    
+    <!-- Device 2 -->
+    <rect x="60" y="0" width="40" height="30" rx="4" fill="#e0f2fe" stroke="#0891b2" stroke-width="2"/>
+    <circle cx="80" cy="15" r="3" fill="#0891b2"/>
+    <text x="80" y="45" text-anchor="middle" fill="#374151" font-family="Arial, sans-serif" font-size="8">设备2</text>
+    <text x="80" y="55" text-anchor="middle" fill="#64748b" font-family="Arial, sans-serif" font-size="7">5GB</text>
+    
+    <!-- Device 3 -->
+    <rect x="120" y="0" width="40" height="30" rx="4" fill="#e0f2fe" stroke="#0891b2" stroke-width="2"/>
+    <circle cx="140" cy="15" r="3" fill="#0891b2"/>
+    <text x="140" y="45" text-anchor="middle" fill="#374151" font-family="Arial, sans-serif" font-size="8">设备3</text>
+    <text x="140" y="55" text-anchor="middle" fill="#64748b" font-family="Arial, sans-serif" font-size="7">5GB</text>
+    
+    <!-- Device 4 -->
+    <rect x="180" y="0" width="40" height="30" rx="4" fill="#e0f2fe" stroke="#0891b2" stroke-width="2"/>
+    <circle cx="200" cy="15" r="3" fill="#0891b2"/>
+    <text x="200" y="45" text-anchor="middle" fill="#374151" font-family="Arial, sans-serif" font-size="8">设备4</text>
+    <text x="200" y="55" text-anchor="middle" fill="#64748b" font-family="Arial, sans-serif" font-size="7">5GB</text>
+    
+    <!-- Connections -->
+    <line x1="40" y1="15" x2="60" y2="15" stroke="#10b981" stroke-width="2"/>
+    <line x1="100" y1="15" x2="120" y2="15" stroke="#10b981" stroke-width="2"/>
+    <line x1="160" y1="15" x2="180" y2="15" stroke="#10b981" stroke-width="2"/>
+    
+    <text x="110" y="75" text-anchor="middle" fill="#374151" font-family="Arial, sans-serif" font-size="10" font-weight="bold">分布式边缘设备</text>
+  </g>
+  
+  <!-- Model representation -->
+  <g transform="translate(280, 90)">
+    <rect x="0" y="0" width="60" height="40" rx="8" fill="#dcfce7" stroke="#10b981" stroke-width="2"/>
+    <text x="30" y="15" text-anchor="middle" fill="#166534" font-family="Arial, sans-serif" font-size="10" font-weight="bold">Yi-34B</text>
+    <text x="30" y="28" text-anchor="middle" fill="#166534" font-family="Arial, sans-serif" font-size="8">大模型</text>
+    <text x="30" y="55" text-anchor="middle" fill="#374151" font-family="Arial, sans-serif" font-size="8">BF16精度</text>
+  </g>
+  
+  <!-- Tensor parallelism visualization -->
+  <g transform="translate(50, 180)">
+    <text x="0" y="15" fill="#374151" font-family="Arial, sans-serif" font-size="12" font-weight="bold">张量并行:</text>
+    
+    <!-- Tensor blocks -->
+    <rect x="0" y="25" width="30" height="15" fill="#fef3c7" stroke="#f59e0b"/>
+    <text x="15" y="37" text-anchor="middle" fill="#92400e" font-family="Arial, sans-serif" font-size="8">T1</text>
+    
+    <rect x="40" y="25" width="30" height="15" fill="#dbeafe" stroke="#3b82f6"/>
+    <text x="55" y="37" text-anchor="middle" fill="#1e40af" font-family="Arial, sans-serif" font-size="8">T2</text>
+    
+    <rect x="80" y="25" width="30" height="15" fill="#dcfce7" stroke="#10b981"/>
+    <text x="95" y="37" text-anchor="middle" fill="#166534" font-family="Arial, sans-serif" font-size="8">T3</text>
+    
+    <rect x="120" y="25" width="30" height="15" fill="#fce7f3" stroke="#ec4899"/>
+    <text x="135" y="37" text-anchor="middle" fill="#be185d" font-family="Arial, sans-serif" font-size="8">T4</text>
+    
+    <text x="75" y="60" text-anchor="middle" fill="#64748b" font-family="Arial, sans-serif" font-size="9">模型分片</text>
+  </g>
+  
+  <!-- Memory management -->
+  <g transform="translate(200, 180)">
+    <rect x="0" y="0" width="80" height="50" rx="8" fill="#f0fdf4" stroke="#10b981" stroke-width="1"/>
+    <text x="40" y="15" text-anchor="middle" fill="#166534" font-family="Arial, sans-serif" font-size="10" font-weight="bold">内存管理</text>
+    <text x="40" y="28" text-anchor="middle" fill="#166534" font-family="Arial, sans-serif" font-size="8">滑动窗口</text>
+    <text x="40" y="40" text-anchor="middle" fill="#166534" font-family="Arial, sans-serif" font-size="8">动态加载</text>
+  </g>
+  
+  <!-- Performance metrics -->
+  <g transform="translate(50, 240)">
+    <circle cx="5" cy="5" r="3" fill="#10b981"/>
+    <text x="15" y="9" fill="#374151" font-family="Arial, sans-serif" font-size="10">低内存占用</text>
+    
+    <circle cx="100" cy="5" r="3" fill="#3b82f6"/>
+    <text x="110" y="9" fill="#374151" font-family="Arial, sans-serif" font-size="10">高效通信</text>
+    
+    <circle cx="190" cy="5" r="3" fill="#f59e0b"/>
+    <text x="200" y="9" fill="#374151" font-family="Arial, sans-serif" font-size="10">隐私保护</text>
+  </g>
+</svg>

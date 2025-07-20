@@ -1,0 +1,50 @@
+<svg width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="cardGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.9" />
+      <stop offset="100%" style="stop-color:#f8fafc;stop-opacity:0.9" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="400" height="300" fill="url(#bgGradient)"/>
+  
+  <!-- Main card -->
+  <rect x="30" y="40" width="340" height="220" rx="15" fill="url(#cardGradient)" stroke="#e2e8f0" stroke-width="1"/>
+  
+  <!-- GPT4ZJU Logo -->
+  <circle cx="80" cy="90" r="25" fill="#10b981" opacity="0.8"/>
+  <text x="80" y="97" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="16" font-weight="bold">GPT</text>
+  
+  <!-- Title -->
+  <text x="120" y="85" fill="#1e293b" font-family="Arial, sans-serif" font-size="20" font-weight="bold">GPT4ZJU 公约</text>
+  <text x="120" y="105" fill="#64748b" font-family="Arial, sans-serif" font-size="14">稳定运营3年的ChatGPT拼车服务</text>
+  
+  <!-- Features -->
+  <g transform="translate(50, 130)">
+    <!-- Feature 1 -->
+    <circle cx="10" cy="10" r="4" fill="#3b82f6"/>
+    <text x="25" y="15" fill="#374151" font-family="Arial, sans-serif" font-size="12">150元/月，3个月起付</text>
+    
+    <!-- Feature 2 -->
+    <circle cx="10" cy="35" r="4" fill="#10b981"/>
+    <text x="25" y="40" fill="#374151" font-family="Arial, sans-serif" font-size="12">1-6人车，费用平摊</text>
+    
+    <!-- Feature 3 -->
+    <circle cx="10" cy="60" r="4" fill="#f59e0b"/>
+    <text x="25" y="65" fill="#374151" font-family="Arial, sans-serif" font-size="12">浙大学生组成，可靠稳定</text>
+  </g>
+  
+  <!-- Contact info -->
+  <rect x="50" y="210" width="300" height="30" rx="15" fill="#1e293b" opacity="0.8"/>
+  <text x="200" y="230" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="12">微信: GPT4ZJU</text>
+  
+  <!-- Decorative elements -->
+  <circle cx="350" cy="60" r="3" fill="#3b82f6" opacity="0.6"/>
+  <circle cx="340" cy="80" r="2" fill="#10b981" opacity="0.6"/>
+  <circle cx="360" cy="100" r="2" fill="#f59e0b" opacity="0.6"/>
+</svg>

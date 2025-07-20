@@ -1,0 +1,105 @@
+<svg width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGradient6" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8b5cf6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#06b6d4;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="cardGradient6" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.95" />
+      <stop offset="100%" style="stop-color:#f8fafc;stop-opacity:0.95" />
+    </linearGradient>
+    <radialGradient id="woodenFishGradient" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#fbbf24;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#d97706;stop-opacity:1" />
+    </radialGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="400" height="300" fill="url(#bgGradient6)"/>
+  
+  <!-- Main card -->
+  <rect x="20" y="25" width="360" height="250" rx="12" fill="url(#cardGradient6)" stroke="#e2e8f0" stroke-width="1"/>
+  
+  <!-- Title -->
+  <text x="200" y="50" text-anchor="middle" fill="#1e293b" font-family="Arial, sans-serif" font-size="20" font-weight="bold">回音木鱼</text>
+  <text x="200" y="70" text-anchor="middle" fill="#64748b" font-family="Arial, sans-serif" font-size="12">专注冥想与正念的iOS应用</text>
+  
+  <!-- Wooden Fish Icon -->
+  <g transform="translate(150, 90)">
+    <!-- Fish body -->
+    <ellipse cx="50" cy="40" rx="45" ry="25" fill="url(#woodenFishGradient)" stroke="#92400e" stroke-width="2"/>
+    
+    <!-- Fish details -->
+    <ellipse cx="35" cy="35" rx="8" ry="5" fill="#fcd34d" opacity="0.8"/>
+    <ellipse cx="65" cy="45" rx="6" ry="4" fill="#fcd34d" opacity="0.8"/>
+    
+    <!-- Eye -->
+    <circle cx="30" cy="40" r="3" fill="#374151"/>
+    
+    <!-- Wooden texture lines -->
+    <line x1="20" y1="30" x2="80" y2="30" stroke="#b45309" stroke-width="1" opacity="0.6"/>
+    <line x1="15" y1="40" x2="85" y2="40" stroke="#b45309" stroke-width="1" opacity="0.6"/>
+    <line x1="20" y1="50" x2="80" y2="50" stroke="#b45309" stroke-width="1" opacity="0.6"/>
+    
+    <text x="50" y="75" text-anchor="middle" fill="#374151" font-family="Arial, sans-serif" font-size="10">木鱼</text>
+  </g>
+  
+  <!-- Sound waves -->
+  <g transform="translate(200, 120)">
+    <circle cx="50" cy="20" r="15" fill="none" stroke="#8b5cf6" stroke-width="2" opacity="0.6"/>
+    <circle cx="50" cy="20" r="25" fill="none" stroke="#8b5cf6" stroke-width="2" opacity="0.4"/>
+    <circle cx="50" cy="20" r="35" fill="none" stroke="#8b5cf6" stroke-width="2" opacity="0.2"/>
+  </g>
+  
+  <!-- Features -->
+  <g transform="translate(50, 180)">
+    <text x="0" y="15" fill="#374151" font-family="Arial, sans-serif" font-size="12" font-weight="bold">核心功能:</text>
+    
+    <!-- Feature 1 -->
+    <circle cx="10" cy="35" r="3" fill="#8b5cf6"/>
+    <text x="20" y="39" fill="#374151" font-family="Arial, sans-serif" font-size="10">多种冥想音效</text>
+    
+    <!-- Feature 2 -->
+    <circle cx="130" cy="35" r="3" fill="#06b6d4"/>
+    <text x="140" y="39" fill="#374151" font-family="Arial, sans-serif" font-size="10">每日时长记录</text>
+    
+    <!-- Feature 3 -->
+    <circle cx="250" cy="35" r="3" fill="#10b981"/>
+    <text x="260" y="39" fill="#374151" font-family="Arial, sans-serif" font-size="10">正念练习课程</text>
+  </g>
+  
+  <!-- Meditation symbols -->
+  <g transform="translate(50, 220)">
+    <!-- Lotus -->
+    <g transform="translate(0, 0)">
+      <path d="M15,15 Q10,5 5,15 Q10,25 15,15 Q20,5 25,15 Q20,25 15,15" fill="#f472b6" opacity="0.7"/>
+      <text x="15" y="35" text-anchor="middle" fill="#64748b" font-family="Arial, sans-serif" font-size="8">莲花</text>
+    </g>
+    
+    <!-- Om symbol representation -->
+    <g transform="translate(80, 0)">
+      <circle cx="15" cy="15" r="12" fill="none" stroke="#8b5cf6" stroke-width="2"/>
+      <text x="15" y="20" text-anchor="middle" fill="#8b5cf6" font-family="Arial, sans-serif" font-size="12" font-weight="bold">ॐ</text>
+      <text x="15" y="35" text-anchor="middle" fill="#64748b" font-family="Arial, sans-serif" font-size="8">冥想</text>
+    </g>
+    
+    <!-- Peace symbol -->
+    <g transform="translate(160, 0)">
+      <circle cx="15" cy="15" r="10" fill="none" stroke="#10b981" stroke-width="2"/>
+      <line x1="15" y1="5" x2="15" y2="25" stroke="#10b981" stroke-width="2"/>
+      <line x1="8" y1="18" x2="15" y2="25" stroke="#10b981" stroke-width="2"/>
+      <line x1="22" y1="18" x2="15" y2="25" stroke="#10b981" stroke-width="2"/>
+      <text x="15" y="35" text-anchor="middle" fill="#64748b" font-family="Arial, sans-serif" font-size="8">平静</text>
+    </g>
+    
+    <!-- iOS icon -->
+    <g transform="translate(240, 0)">
+      <rect x="5" y="5" width="20" height="20" rx="5" fill="#007AFF"/>
+      <circle cx="15" cy="15" r="3" fill="white"/>
+      <text x="15" y="35" text-anchor="middle" fill="#64748b" font-family="Arial, sans-serif" font-size="8">iOS</text>
+    </g>
+  </g>
+  
+  <!-- Quote -->
+  <text x="200" y="265" text-anchor="middle" fill="#64748b" font-family="Arial, sans-serif" font-size="10" font-style="italic">"让每一次敲击，回响在心灵深处"</text>
+</svg>

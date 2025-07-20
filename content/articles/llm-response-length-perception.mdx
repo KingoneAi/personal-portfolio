@@ -1,0 +1,92 @@
+---
+title: LLM响应长度感知和序列调度研究
+description: LLM批推理效率优化方案，通过序列调度提升86%吞吐量
+date: "2025-01-20"
+tags: ["LLM", "深度学习", "推理优化", "PyTorch"]
+---
+
+## PyTorch 实现《响应长度感知和序列调度：一个 LLM 赋能的 LLM 推理管道》 相关资料
+
+https://github.com/zhengzangw/Sequence-Scheduling
+
+## 论文简析
+
+### 论文聚焦
+
+聚焦于响应长度感知和序列调度，以提高 LLM 批推理的效率。注意是批推理，而不是提高单次推理的效率。提高批推理效率，主要聚焦于在一次推理过程中同时处理多个查询请求时的整体性能。它强调的是在单位时间内能够处理的查询数量，即提高系统的吞吐量。
+
+提高批推理效率的意义在于，在实际应用场景中，往往会有大量的用户查询需要处理，如果能够同时对多个查询进行批处理，就能更充分地利用计算资源，降低总体的处理时间和成本。
+
+### 核心思想
+
+该项目发现大语言模型（LLMs）具备提前感知其生成响应长度的能力。利用这一特性，提出了名为 "序列调度" 的技术，通过将预计响应长度相近的查询分组，显著减少冗余计算，在不影响性能的前提下，使推理吞吐量提升了 86%。
+
+### 主要模块及功能
+
+#### 1. src 目录
+
+- `generate.py`: 定义了 Creator 类，负责生成文本。支持单样本流式生成（stream）、批量生成（batch）和分组生成（group）三种策略。包含 MLP 类，是一个简单的多层感知机模型。
+
+- `utils.py`: 提供了多种工具函数，如设置随机种子（set_seed）、时间测量（timeit）、数据描述（describe）、数据加载和保存（jload, jdump）等。
+
+- `train_lora.py`: 用于对模型进行 LoRA（Low-Rank Adaptation）微调训练。
+
+- `eval.py`: 评估响应长度感知模块的性能，计算误差和准确率。
+
+- `benchmark.py`: 对不同的推理策略进行基准测试，比较吞吐量、平均长度、有效令牌比率和失败率等指标。
+
+#### 2. 实验复现
+
+##### 准备工作
+
+先下载两个模型权重文件（准备科学上网工具， 37G 大小）
+
+```bash
+huggingface-cli download lmsys/vicuna-7b-v1.5 --local-dir ./vicuna-7b
+huggingface-cli download --resume-download huggyllama/llama-7b --local-dir ./llama-7b --local-dir-use-symlinks False
+```
+
+再安装 python 依赖，注意修改版本 transformers==4.28.0 peft==0.4.0，指定 python 为 3.9
+
+```bash
+pip install -r requirements.txt
+```
+
+##### 序列调度测试
+
+1. Vanilla 策略（无调度）：
+```bash
+CUDA_VISIBLE_DEVICES=0 python -m src.benchmark --num-data 1024
+```
+
+2. 序列调度策略（带 VBS 和 FCR）：
+```bash
+CUDA_VISIBLE_DEVICES=0 python -m src.benchmark --num-data 1024 --strategy seqsch --vbs --fcr --lora-path ./ckpts/vicuna-response-length-perception-module
+```
+
+3. 序列调度策略（不带 VBS 和 FCR）：
+```bash
+CUDA_VISIBLE_DEVICES=0 python -m src.benchmark --num-data 1024 --strategy seqsch --lora-path ./ckpts/vicuna-response-length-perception-module
+```
+
+通过以上步骤，用户可以复现论文中的实验结果，并验证序列调度技术对 LLM 推理效率的提升效果。
+
+## 小结
+
+这个批量推理实现是工业级提升批量推理的常用算法之一。也是为什么火山引擎和阿里云等云服务商批量推理比单个推理单价低 50%以上。
+
+<div className="bg-yellow-50 dark:bg-yellow-900/20 border-l-4 border-yellow-500 p-4 my-6 rounded-r-lg">
+  <div className="flex items-start">
+    <div className="flex-shrink-0">
+      <svg className="w-5 h-5 text-yellow-500 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+        <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+      </svg>
+    </div>
+    <div className="ml-3">
+      <div className="font-semibold text-yellow-800 dark:text-yellow-200 mb-2">需要 GPU 服务器</div>
+      <div className="text-gray-700 dark:text-gray-300">
+        如果一开始就使用 GPU 服务器就不会有这么多卡点，Nvidia GPU 还是不能少。
+      </div>
+    </div>
+  </div>
+</div>

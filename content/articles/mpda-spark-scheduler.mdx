@@ -1,0 +1,155 @@
+---
+title: MPDA 算法在 Spark 下的实现与研究
+description: 深度强化学习的大规模并行学习和依赖感知调度算法
+date: "2025-01-20"
+tags: ["深度学习", "Spark", "调度算法", "强化学习", "分布式计算"]
+---
+
+## MPDA 算法在 Spark 下的使用及优越性
+
+《MPDA：一种用于数据处理集群的大规模并行学习和依赖感知调度算法》由李青、陈星池等人撰写。文章提出了 MPDA 算法，通过快速训练机制和 GATNetwork，解决基于 DRL 调度算法训练慢和环境感知表示不足的问题，实验证明其在训练速度和调度性能上优势显著。
+
+## 相关资源
+
+- DRL Sota 调度算法 Decima：https://github.com/hongzimao/decima-sim
+- 基准数据集： https://www.tpc.org/tpch/
+
+## 复现目标
+
+论证论文中 MPDA 算法比 FIFO、SJF-CP 等启发式基线算法、基于 DRL 的 Decima 算法性能更好：
+
+1. 在本地环境中使用 docker 搭建所需的 spark cpu 环境
+2. 使用 TPC-H 数据集，运行 Decima 算法，获取执行任务所需的 JCT 时间
+3. 基于论文描述开发 MPDA 算法代码，在本地环境中用同样的 tpc 数据运行，获取平均 JCT 时间
+
+## 实验环境搭建
+
+### 机器配置
+- 火山引擎 ecs.r3il.2xlarge 8 vCPU 64 GiB
+
+### Docker 搭建 Spark 环境
+
+使用以下 `docker-compose.yml` 配置：
+
+```yaml
+version: '3.8'
+
+services:
+  # Spark Master
+  spark-master:
+    image: bitnami/spark:3.5
+    container_name: spark-master
+    environment:
+      - SPARK_MODE=master
+      - ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - '7077:7077'
+      - '8080:8080'
+    volumes:
+      - ./logs/spark-runtime:/opt/bitnami/spark/logs
+      - ./checkpoints:/tmp/checkpoints
+      - ./data:/data
+
+  # Spark Worker
+  spark-worker-1:
+    image: bitnami/spark:3.5
+    container_name: spark-worker-1
+    depends_on:
+      - spark-master
+    environment:
+      - SPARK_MODE=worker
+      - SPARK_MASTER_URL=spark://spark-master:7077
+      - SPARK_WORKER_MEMORY=2G
+      - SPARK_WORKER_CORES=2
+      - ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - '8081:8081'
+    volumes:
+      - ./logs/spark-runtime:/opt/bitnami/spark/logs
+      - ./checkpoints:/tmp/checkpoints
+      - ./data:/data
+
+  # Jupyter Notebook
+  jupyter:
+    image: jupyter/pyspark-notebook:spark-3.5.0
+    container_name: jupyter
+    depends_on:
+      - spark-master
+    environment:
+      - PYSPARK_SUBMIT_ARGS=--master spark://spark-master:7077 pyspark-shell
+      - SPARK_MASTER=spark://spark-master:7077
+      - JUPYTER_TOKEN=
+    ports:
+      - '8888:8888'
+    volumes:
+      - ./notebooks:/home/jovyan/work
+```
+
+## MPDA 代码架构分析
+
+SpeedScheduler 是一个基于深度强化学习(DRL)的 Spark 任务调度系统，主要组件：
+
+### 核心模块
+
+1. **spark_env**：Spark 模拟环境
+   - env.py：核心环境类，实现了 OpenAI Gym 接口
+   - job_dag.py：作业 DAG（有向无环图）的表示
+   - node.py：DAG 中的节点表示
+   - task.py：计算任务的表示
+
+2. **attentional_decima**：基于注意力机制的调度算法
+   - algorithm.py：实现了 AttentionalDecima 算法
+
+3. **分布式训练架构**：
+   - start_master.py：启动主节点
+   - start_worker.py：启动工作节点
+   - actor.py：实现 Actor-Learner 架构中的 Actor
+   - learner.py：实现 Actor-Learner 架构中的 Learner
+
+### 工作原理
+
+1. **环境模拟**：系统模拟了 Spark 的执行环境，包括执行器、任务、作业 DAG 等组件
+2. **调度决策**：选择哪个节点进行调度，以及分配多少执行器
+3. **强化学习训练**：使用 Actor-Critic 架构，基于作业完成时间优化调度策略
+4. **分布式训练**：多个 Actor 并行收集经验，中央 Learner 聚合经验并更新模型
+
+## 实验结果
+
+### MPDA 算法复现
+
+环境准备：
+```bash
+conda create -n mpda python=3.7
+conda activate mpda
+pip install tensorflow==1.15 numpy==1.18 scipy==1.5 networkx==2.5 pyarrow==3.0 tensorboardX crc32c pyyaml pyzmq matplotlib
+```
+
+运行步骤：
+1. 启动工作节点：`python start_worker.py -f config.yaml`
+2. 启动主节点：`python start_master.py -f config.yaml`
+3. 查看训练结果：`tensorboard --logdir=results`
+
+### Decima 算法对比
+
+使用 50 个执行器，200 个流式作业进行测试：
+```bash
+python3 train.py --exec_cap 50 --num_init_dags 1 --num_stream_dags 200 --reset_prob 5e-7 --reset_prob_min 5e-8 --reset_prob_decay 4e-10 --diff_reward_enabled 1 --num_agents 16 --model_save_interval 100 --model_folder ./models/stream_200_job_diff_reward_reset_5e-7_5e-8/
+```
+
+## 研究结论
+
+### 项目特点
+
+1. **可扩展性**：系统设计为可插拔架构，可以轻松替换环境或算法组件
+2. **并行训练**：通过参数服务器架构实现大规模并行训练，加速强化学习过程
+3. **高效调度**：通过学习 DAG 结构和任务特性，实现比传统启发式方法更高效的调度策略
+4. **实用性**：虽然是模拟环境，但系统设计考虑了真实 Spark 集群的特性
+
+SpeedScheduler 项目展示了如何将深度强化学习技术应用于分布式数据处理系统的调度问题，为解决大规模计算集群的资源分配问题提供了新的思路。
+
+### 学术价值
+
+该研究在以下方面具有重要意义：
+- 提出了新的调度算法框架，结合了深度学习和传统调度理论
+- 在真实数据集上验证了算法的有效性
+- 为分布式计算系统的智能调度提供了新的解决方案
