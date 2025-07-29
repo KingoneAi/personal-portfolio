@@ -9,6 +9,7 @@ export default function ArticleList({ articles }: { articles: { title: string, d
       'mpda-spark-scheduler': '/articles/mpda-spark.svg',
       'tpi-llm-edge-inference': '/articles/tpi-llm-edge.svg',
       'gei-xd-de-lianghua-celue-shouban-eryang-gerimai-mai': '/articles/quant-strategy.svg',
+      'a-worldquant-consult-helper': '/articles/worldquant-consult.svg',
     };
     return imageMap[slug] || '/placeholder.svg';
   };
